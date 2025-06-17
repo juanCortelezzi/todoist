@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :todoist, Todoist.Repo,
-  database: Path.expand("../todoist_dev.db", __DIR__),
+  database: Path.expand("../squeel/todoist_dev.db", __DIR__),
   pool_size: 5,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true
