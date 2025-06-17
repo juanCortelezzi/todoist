@@ -11,9 +11,9 @@ defmodule Todoist.TodosFixtures do
     {:ok, todo} =
       attrs
       |> Enum.into(%{
-        description: "some description",
-        status: "some status",
-        title: "some title"
+        title: "some title",
+        status: :todo,
+        description: "some description"
       })
       |> Todoist.Todos.create_todo()
 

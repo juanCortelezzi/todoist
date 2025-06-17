@@ -21,10 +21,10 @@ defmodule Todoist.TodosTest do
     end
 
     test "create_todo/1 with valid data creates a todo" do
-      valid_attrs = %{status: "some status", description: "some description", title: "some title"}
+      valid_attrs = %{status: :done, description: "some description", title: "some title"}
 
       assert {:ok, %Todo{} = todo} = Todos.create_todo(valid_attrs)
-      assert todo.status == "some status"
+      assert todo.status == :done
       assert todo.description == "some description"
       assert todo.title == "some title"
     end
@@ -35,10 +35,15 @@ defmodule Todoist.TodosTest do
 
     test "update_todo/2 with valid data updates the todo" do
       todo = todo_fixture()
-      update_attrs = %{status: "some updated status", description: "some updated description", title: "some updated title"}
+
+      update_attrs = %{
+        status: :doing,
+        description: "some updated description",
+        title: "some updated title"
+      }
 
       assert {:ok, %Todo{} = todo} = Todos.update_todo(todo, update_attrs)
-      assert todo.status == "some updated status"
+      assert todo.status == :doing
       assert todo.description == "some updated description"
       assert todo.title == "some updated title"
     end

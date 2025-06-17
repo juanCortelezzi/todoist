@@ -3,9 +3,9 @@ defmodule Todoist.Todos.Todo do
   import Ecto.Changeset
 
   schema "todos" do
-    field :status, :string
-    field :description, :string
-    field :title, :string
+    field(:title, :string)
+    field(:status, Ecto.Enum, values: [:todo, :doing, :done])
+    field(:description, :string)
 
     timestamps()
   end

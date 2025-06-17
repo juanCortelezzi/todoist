@@ -3,9 +3,9 @@ defmodule Todoist.Repo.Migrations.CreateTodos do
 
   def change do
     create table(:todos) do
-      add :title, :string
-      add :description, :string
-      add :status, :string
+      add :title, :string, null: false
+      add :description, :string, null: true
+      add :status, :string, null: false
 
       timestamps()
     end

@@ -4,8 +4,12 @@ defmodule TodoistWeb.TodoLiveTest do
   import Phoenix.LiveViewTest
   import Todoist.TodosFixtures
 
-  @create_attrs %{status: "some status", description: "some description", title: "some title"}
-  @update_attrs %{status: "some updated status", description: "some updated description", title: "some updated title"}
+  @create_attrs %{status: :todo, description: "some description", title: "some title"}
+  @update_attrs %{
+    status: :done,
+    description: "some updated description",
+    title: "some updated title"
+  }
   @invalid_attrs %{status: nil, description: nil, title: nil}
 
   defp create_todo(_) do
@@ -20,7 +24,7 @@ defmodule TodoistWeb.TodoLiveTest do
       {:ok, _index_live, html} = live(conn, ~p"/todos")
 
       assert html =~ "Listing Todos"
-      assert html =~ todo.status
+      assert html =~ todo.status |> Atom.to_string()
     end
 
     test "saves new todo", %{conn: conn} do
@@ -43,7 +47,7 @@ defmodule TodoistWeb.TodoLiveTest do
 
       html = render(index_live)
       assert html =~ "Todo created successfully"
-      assert html =~ "some status"
+      assert html =~ "todo"
     end
 
     test "updates todo in listing", %{conn: conn, todo: todo} do
@@ -66,7 +70,7 @@ defmodule TodoistWeb.TodoLiveTest do
 
       html = render(index_live)
       assert html =~ "Todo updated successfully"
-      assert html =~ "some updated status"
+      assert html =~ "done"
     end
 
     test "deletes todo in listing", %{conn: conn, todo: todo} do
@@ -84,7 +88,7 @@ defmodule TodoistWeb.TodoLiveTest do
       {:ok, _show_live, html} = live(conn, ~p"/todos/#{todo}")
 
       assert html =~ "Show Todo"
-      assert html =~ todo.status
+      assert html =~ todo.status |> Atom.to_string()
     end
 
     test "updates todo within modal", %{conn: conn, todo: todo} do
@@ -107,7 +111,7 @@ defmodule TodoistWeb.TodoLiveTest do
 
       html = render(show_live)
       assert html =~ "Todo updated successfully"
-      assert html =~ "some updated status"
+      assert html =~ "done"
     end
   end
 end
