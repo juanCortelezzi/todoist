@@ -7,13 +7,15 @@ defmodule Todoist.Todos.Todo do
     field(:status, Ecto.Enum, values: [:todo, :doing, :done])
     field(:description, :string)
 
+    belongs_to(:project, Todoist.Projects.Project)
+
     timestamps()
   end
 
   @doc false
   def changeset(todo, attrs) do
     todo
-    |> cast(attrs, [:title, :description, :status])
+    |> cast(attrs, [:title, :description, :status, :project_id])
     |> validate_required([:title, :description, :status])
   end
 end
