@@ -7,8 +7,9 @@ defmodule Todoist.TodosTest do
     alias Todoist.Todos.Todo
 
     import Todoist.TodosFixtures
+    import Todoist.ProjectsFixtures
 
-    @invalid_attrs %{status: nil, description: nil, title: nil}
+    @invalid_attrs %{status: nil, description: nil, title: nil, project_id: nil}
 
     test "list_todos/0 returns all todos" do
       todo = todo_fixture()
@@ -21,16 +22,23 @@ defmodule Todoist.TodosTest do
     end
 
     test "create_todo/1 with valid data creates a todo" do
-      valid_attrs = %{status: :done, description: "some description", title: "some title"}
+      project = project_fixture()
+      valid_attrs = %{status: :done, description: "some description", title: "some title", project_id: project.id}
 
       assert {:ok, %Todo{} = todo} = Todos.create_todo(valid_attrs)
       assert todo.status == :done
       assert todo.description == "some description"
       assert todo.title == "some title"
+      assert todo.project_id == project.id
     end
 
     test "create_todo/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Todos.create_todo(@invalid_attrs)
+    end
+
+    test "create_todo/1 without project_id returns error changeset" do
+      attrs_without_project = %{status: :todo, description: "some description", title: "some title"}
+      assert {:error, %Ecto.Changeset{}} = Todos.create_todo(attrs_without_project)
     end
 
     test "update_todo/2 with valid data updates the todo" do

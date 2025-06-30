@@ -3,18 +3,20 @@ defmodule TodoistWeb.TodoLiveTest do
 
   import Phoenix.LiveViewTest
   import Todoist.TodosFixtures
+  import Todoist.ProjectsFixtures
 
-  @create_attrs %{status: :todo, description: "some description", title: "some title"}
+  @create_attrs %{status: "Todo", description: "some description", title: "some title"}
   @update_attrs %{
-    status: :done,
+    status: "Done",
     description: "some updated description",
     title: "some updated title"
   }
-  @invalid_attrs %{status: nil, description: nil, title: nil}
+  @invalid_attrs %{status: "Todo", description: "", title: "", project_id: 1}
 
   defp create_todo(_) do
     todo = todo_fixture()
-    %{todo: todo}
+    project = project_fixture()
+    %{todo: todo, project: project}
   end
 
   describe "Index" do
@@ -27,7 +29,7 @@ defmodule TodoistWeb.TodoLiveTest do
       assert html =~ todo.status |> Atom.to_string()
     end
 
-    test "saves new todo", %{conn: conn} do
+    test "saves new todo", %{conn: conn, project: project} do
       {:ok, index_live, _html} = live(conn, ~p"/todos")
 
       assert index_live |> element("a", "New Todo") |> render_click() =~
@@ -39,8 +41,10 @@ defmodule TodoistWeb.TodoLiveTest do
              |> form("#todo-form", todo: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
 
+      create_attrs_with_project = Map.put(@create_attrs, :project_id, project.id)
+
       assert index_live
-             |> form("#todo-form", todo: @create_attrs)
+             |> form("#todo-form", todo: create_attrs_with_project)
              |> render_submit()
 
       assert_patch(index_live, ~p"/todos")
