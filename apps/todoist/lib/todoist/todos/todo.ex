@@ -16,6 +16,6 @@ defmodule Todoist.Todos.Todo do
   def changeset(todo, attrs) do
     todo
     |> cast(attrs, [:title, :description, :status, :project_id])
-    |> validate_required([:title, :description, :status, :project_id])
+    |> validate_required([:title, :status, :project_id])
   end
 end

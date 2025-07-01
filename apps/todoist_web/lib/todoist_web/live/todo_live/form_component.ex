@@ -20,7 +20,7 @@ defmodule TodoistWeb.TodoLive.FormComponent do
         phx-submit="save"
       >
         <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:description]} type="text" label="Description (optional)" />
         <.input field={@form[:status]} type="select" label="Status" options={[{"Todo", :todo}, {"Doing", :doing}, {"Done", :done}]} />
         <input type="hidden" name="todo[project_id]" value={@form[:project_id].value} />
         <:actions>

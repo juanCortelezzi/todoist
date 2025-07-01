@@ -54,3 +54,10 @@ Repo.insert!(%Todo{
   status: :todo,
   project_id: personal_project.id
 })
+
+Repo.insert!(%Todo{
+  title: "Call mom",
+  description: nil,
+  status: :todo,
+  project_id: personal_project.id
+})

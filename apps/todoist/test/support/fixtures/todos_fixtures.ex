@@ -24,4 +24,22 @@ defmodule Todoist.TodosFixtures do
 
     todo
   end
+
+  @doc """
+  Generate a todo without description.
+  """
+  def todo_fixture_no_description(attrs \\ %{}) do
+    project = project_fixture()
+
+    {:ok, todo} =
+      attrs
+      |> Enum.into(%{
+        title: "some title",
+        status: :todo,
+        project_id: project.id
+      })
+      |> Todoist.Todos.create_todo()
+
+    todo
+  end
 end

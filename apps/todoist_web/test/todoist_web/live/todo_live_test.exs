@@ -11,7 +11,7 @@ defmodule TodoistWeb.TodoLiveTest do
     description: "some updated description",
     title: "some updated title"
   }
-  @invalid_attrs %{status: "Todo", description: "", title: "", project_id: 1}
+  @invalid_attrs %{status: "Todo", title: "", project_id: 1}
 
   defp create_todo(_) do
     todo = todo_fixture()
