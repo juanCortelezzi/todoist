@@ -2,7 +2,6 @@ defmodule TodoistWeb.TodoLive.FormComponent do
   use TodoistWeb, :live_component
 
   alias Todoist.Todos
-  alias Todoist.Projects
 
   @impl true
   def render(assigns) do
@@ -22,8 +21,8 @@ defmodule TodoistWeb.TodoLive.FormComponent do
       >
         <.input field={@form[:title]} type="text" label="Title" />
         <.input field={@form[:description]} type="text" label="Description" />
-        <.input field={@form[:status]} type="select" label="Status" options={[todo: "Todo", doing: "Doing", done: "Done"]} />
-        <.input field={@form[:project_id]} type="select" label="Project" options={@project_options} />
+        <.input field={@form[:status]} type="select" label="Status" options={[{"Todo", :todo}, {"Doing", :doing}, {"Done", :done}]} />
+        <input type="hidden" name="todo[project_id]" value={@form[:project_id].value} />
         <:actions>
           <.button phx-disable-with="Saving...">Save Todo</.button>
         </:actions>
@@ -34,13 +33,9 @@ defmodule TodoistWeb.TodoLive.FormComponent do
 
   @impl true
   def update(%{todo: todo} = assigns, socket) do
-    projects = Projects.list_projects()
-    project_options = Enum.map(projects, &{&1.title, &1.id})
-
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:project_options, project_options)
      |> assign_new(:form, fn ->
        to_form(Todos.change_todo(todo))
      end)}

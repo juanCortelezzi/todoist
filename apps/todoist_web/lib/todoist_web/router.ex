@@ -19,12 +19,14 @@ defmodule TodoistWeb.Router do
 
     get "/", PageController, :home
 
-    live "/todos", TodoLive.Index, :index
-    live "/todos/new", TodoLive.Index, :new
-    live "/todos/:id/edit", TodoLive.Index, :edit
+    live "/projects/new", ProjectLive, :new
 
-    live "/todos/:id", TodoLive.Show, :show
-    live "/todos/:id/show/edit", TodoLive.Show, :edit
+    live "/:project_name/todos", TodoLive.Index, :index
+    live "/:project_name/todos/new", TodoLive.Index, :new
+    live "/:project_name/todos/:id/edit", TodoLive.Index, :edit
+
+    live "/:project_name/todos/:id", TodoLive.Show, :show
+    live "/:project_name/todos/:id/show/edit", TodoLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

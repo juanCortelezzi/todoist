@@ -2,10 +2,17 @@ defmodule TodoistWeb.TodoLive.Show do
   use TodoistWeb, :live_view
 
   alias Todoist.Todos
+  alias Todoist.Projects
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(%{"project_name" => project_name}, _session, socket) do
+    project = Projects.get_project_by_title!(project_name)
+    projects = Projects.list_projects()
+
+    {:ok, 
+     socket
+     |> assign(:current_project, project)
+     |> assign(:projects, projects)}
   end
 
   @impl true

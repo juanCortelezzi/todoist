@@ -22,6 +22,20 @@ defmodule Todoist.Todos do
   end
 
   @doc """
+  Returns the list of todos for a specific project.
+
+  ## Examples
+
+      iex> list_todos_by_project(project)
+      [%Todo{}, ...]
+
+  """
+  def list_todos_by_project(project) do
+    from(t in Todo, where: t.project_id == ^project.id)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single todo.
 
   Raises `Ecto.NoResultsError` if the Todo does not exist.

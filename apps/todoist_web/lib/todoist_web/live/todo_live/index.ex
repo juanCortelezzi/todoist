@@ -3,10 +3,19 @@ defmodule TodoistWeb.TodoLive.Index do
 
   alias Todoist.Todos
   alias Todoist.Todos.Todo
+  alias Todoist.Projects
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :todos, Todos.list_todos())}
+  def mount(%{"project_name" => project_name}, _session, socket) do
+    project = Projects.get_project_by_title!(project_name)
+    projects = Projects.list_projects()
+    todos = Todos.list_todos_by_project(project)
+
+    {:ok, 
+     socket
+     |> assign(:current_project, project)
+     |> assign(:projects, projects)
+     |> stream(:todos, todos)}
   end
 
   @impl true
@@ -21,14 +30,16 @@ defmodule TodoistWeb.TodoLive.Index do
   end
 
   defp apply_action(socket, :new, _params) do
+    project = socket.assigns.current_project
     socket
     |> assign(:page_title, "New Todo")
-    |> assign(:todo, %Todo{})
+    |> assign(:todo, %Todo{project_id: project.id})
   end
 
   defp apply_action(socket, :index, _params) do
+    project = socket.assigns.current_project
     socket
-    |> assign(:page_title, "Listing Todos")
+    |> assign(:page_title, "#{project.title} - Todos")
     |> assign(:todo, nil)
   end
 

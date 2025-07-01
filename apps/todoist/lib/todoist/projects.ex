@@ -38,6 +38,24 @@ defmodule Todoist.Projects do
   def get_project!(id), do: Repo.get!(Project, id)
 
   @doc """
+  Gets a single project by title.
+
+  Raises `Ecto.NoResultsError` if the Project does not exist.
+
+  ## Examples
+
+      iex> get_project_by_title!("My Project")
+      %Project{}
+
+      iex> get_project_by_title!("Nonexistent")
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_project_by_title!(title) do
+    Repo.get_by!(Project, title: title)
+  end
+
+  @doc """
   Creates a project.
 
   ## Examples
