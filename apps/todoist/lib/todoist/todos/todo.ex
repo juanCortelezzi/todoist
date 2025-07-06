@@ -1,4 +1,10 @@
 defmodule Todoist.Todos.Todo do
+  @moduledoc """
+  Defines the Todo schema and changeset.
+
+  A Todo represents a task that belongs to a project with a title,
+  optional description, and a status that can be :todo, :doing, or :done.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

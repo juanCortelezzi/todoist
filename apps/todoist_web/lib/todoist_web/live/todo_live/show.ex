@@ -1,8 +1,8 @@
 defmodule TodoistWeb.TodoLive.Show do
   use TodoistWeb, :live_view
 
-  alias Todoist.Todos
   alias Todoist.Projects
+  alias Todoist.Todos
 
   @impl true
   def mount(%{"project_name" => project_name}, _session, socket) do

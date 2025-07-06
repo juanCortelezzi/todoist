@@ -1,4 +1,10 @@
 defmodule Todoist.Projects.Project do
+  @moduledoc """
+  Defines the Project schema and changeset.
+
+  A Project represents a container for todos with a title and description.
+  Projects have many todos through a one-to-many relationship.
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

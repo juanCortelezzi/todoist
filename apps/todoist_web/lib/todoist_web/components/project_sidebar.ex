@@ -1,4 +1,10 @@
 defmodule TodoistWeb.Components.ProjectSidebar do
+  @moduledoc """
+  Provides a sidebar component for project navigation.
+
+  Displays a list of projects with navigation links and provides
+  buttons to create new projects when the list is empty or populated.
+  """
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
