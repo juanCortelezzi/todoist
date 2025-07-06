@@ -10,8 +10,7 @@ defmodule Todoist.Application do
     children = [
       Todoist.Repo,
       {Ecto.Migrator,
-        repos: Application.fetch_env!(:todoist, :ecto_repos),
-        skip: skip_migrations?()},
+       repos: Application.fetch_env!(:todoist, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:todoist, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Todoist.PubSub}
       # Start a worker by calling: Todoist.Worker.start_link(arg)

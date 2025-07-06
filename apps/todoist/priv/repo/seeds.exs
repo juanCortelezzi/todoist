@@ -15,15 +15,17 @@ alias Todoist.Projects.Project
 alias Todoist.Todos.Todo
 
 # Create sample projects
-work_project = Repo.insert!(%Project{
-  title: "Work",
-  description: "Work-related tasks and projects"
-})
+work_project =
+  Repo.insert!(%Project{
+    title: "Work",
+    description: "Work-related tasks and projects"
+  })
 
-personal_project = Repo.insert!(%Project{
-  title: "Personal",
-  description: "Personal tasks and goals"
-})
+personal_project =
+  Repo.insert!(%Project{
+    title: "Personal",
+    description: "Personal tasks and goals"
+  })
 
 # Create sample todos for Work project
 Repo.insert!(%Todo{

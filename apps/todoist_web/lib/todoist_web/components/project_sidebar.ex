@@ -50,4 +50,3 @@ defmodule TodoistWeb.Components.ProjectSidebar do
     """
   end
 end
-

@@ -11,7 +11,7 @@ defmodule TodoistWeb.TodoLive.Index do
     projects = Projects.list_projects()
     todos = Todos.list_todos_by_project(project)
 
-    {:ok, 
+    {:ok,
      socket
      |> assign(:current_project, project)
      |> assign(:projects, projects)
@@ -31,6 +31,7 @@ defmodule TodoistWeb.TodoLive.Index do
 
   defp apply_action(socket, :new, _params) do
     project = socket.assigns.current_project
+
     socket
     |> assign(:page_title, "New Todo")
     |> assign(:todo, %Todo{project_id: project.id})
@@ -38,6 +39,7 @@ defmodule TodoistWeb.TodoLive.Index do
 
   defp apply_action(socket, :index, _params) do
     project = socket.assigns.current_project
+
     socket
     |> assign(:page_title, "#{project.title} - Todos")
     |> assign(:todo, nil)

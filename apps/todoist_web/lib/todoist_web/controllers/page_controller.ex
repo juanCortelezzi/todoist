@@ -8,7 +8,7 @@ defmodule TodoistWeb.PageController do
       [] ->
         # No projects exist, redirect to project creation
         redirect(conn, to: ~p"/projects/new")
-      
+
       [first_project | _] ->
         # Redirect to the first project's todos
         redirect(conn, to: ~p"/#{first_project.title}/todos")

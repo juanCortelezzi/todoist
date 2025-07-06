@@ -23,7 +23,13 @@ defmodule Todoist.TodosTest do
 
     test "create_todo/1 with valid data creates a todo" do
       project = project_fixture()
-      valid_attrs = %{status: :done, description: "some description", title: "some title", project_id: project.id}
+
+      valid_attrs = %{
+        status: :done,
+        description: "some description",
+        title: "some title",
+        project_id: project.id
+      }
 
       assert {:ok, %Todo{} = todo} = Todos.create_todo(valid_attrs)
       assert todo.status == :done
@@ -37,7 +43,12 @@ defmodule Todoist.TodosTest do
     end
 
     test "create_todo/1 without project_id returns error changeset" do
-      attrs_without_project = %{status: :todo, description: "some description", title: "some title"}
+      attrs_without_project = %{
+        status: :todo,
+        description: "some description",
+        title: "some title"
+      }
+
       assert {:error, %Ecto.Changeset{}} = Todos.create_todo(attrs_without_project)
     end
 

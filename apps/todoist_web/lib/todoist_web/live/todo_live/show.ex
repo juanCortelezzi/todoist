@@ -9,7 +9,7 @@ defmodule TodoistWeb.TodoLive.Show do
     project = Projects.get_project_by_title!(project_name)
     projects = Projects.list_projects()
 
-    {:ok, 
+    {:ok,
      socket
      |> assign(:current_project, project)
      |> assign(:projects, projects)}

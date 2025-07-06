@@ -7,8 +7,8 @@ defmodule TodoistWeb.ProjectLive do
   @impl true
   def mount(_params, _session, socket) do
     projects = Projects.list_projects()
-    
-    {:ok, 
+
+    {:ok,
      socket
      |> assign(:projects, projects)
      |> assign(:page_title, "Create Project")}
@@ -21,6 +21,7 @@ defmodule TodoistWeb.ProjectLive do
 
   defp apply_action(socket, :new, _params) do
     project = %Project{}
+
     socket
     |> assign(:page_title, "New Project")
     |> assign(:project, project)
