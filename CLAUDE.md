@@ -41,6 +41,9 @@ mix assets.deploy           # Build and minify assets for production
 
 # Testing
 mix test                    # Run full test suite
+
+# Linting
+mix credo --strict          # Lint all files in codebase
 ```
 
 ## Web Interface Architecture
@@ -65,3 +68,4 @@ The application uses Phoenix LiveView for real-time interactivity without JavaSc
 - Test fixtures for projects and todos in test support files
 - LiveView testing with Floki for DOM assertions
 - Separate test database (`todoist_test.db`)
+
