@@ -4,39 +4,6 @@ defmodule TodoistWeb.TodoLive.FormComponent do
   alias Todoist.Todos
 
   @impl true
-  def render(assigns) do
-    ~H"""
-    <div>
-      <.header>
-        {@title}
-        <:subtitle>Use this form to manage todo records in your database.</:subtitle>
-      </.header>
-
-      <.simple_form
-        for={@form}
-        id="todo-form"
-        phx-target={@myself}
-        phx-change="validate"
-        phx-submit="save"
-      >
-        <.input field={@form[:title]} type="text" label="Title" />
-        <.input field={@form[:description]} type="text" label="Description (optional)" />
-        <.input
-          field={@form[:status]}
-          type="select"
-          label="Status"
-          options={[{"Todo", :todo}, {"Doing", :doing}, {"Done", :done}]}
-        />
-        <input type="hidden" name="todo[project_id]" value={@form[:project_id].value} />
-        <:actions>
-          <.button phx-disable-with="Saving...">Save Todo</.button>
-        </:actions>
-      </.simple_form>
-    </div>
-    """
-  end
-
-  @impl true
   def update(%{todo: todo} = assigns, socket) do
     {:ok,
      socket
@@ -87,4 +54,37 @@ defmodule TodoistWeb.TodoLive.FormComponent do
   end
 
   defp notify_parent(msg), do: send(self(), {__MODULE__, msg})
+
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div>
+      <.header>
+        {@title}
+        <:subtitle>Use this form to manage todo records in your database.</:subtitle>
+      </.header>
+
+      <.simple_form
+        for={@form}
+        id="todo-form"
+        phx-target={@myself}
+        phx-change="validate"
+        phx-submit="save"
+      >
+        <.input field={@form[:title]} type="text" label="Title" />
+        <.input field={@form[:description]} type="text" label="Description (optional)" />
+        <.input
+          field={@form[:status]}
+          type="select"
+          label="Status"
+          options={[{"Todo", :todo}, {"Doing", :doing}, {"Done", :done}]}
+        />
+        <input type="hidden" name="todo[project_id]" value={@form[:project_id].value} />
+        <:actions>
+          <.button phx-disable-with="Saving...">Save Todo</.button>
+        </:actions>
+      </.simple_form>
+    </div>
+    """
+  end
 end
