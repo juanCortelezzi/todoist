@@ -10,8 +10,8 @@ defmodule TodoistWeb.Components.ProjectSidebar do
   alias Phoenix.LiveView.JS
   import TodoistWeb.CoreComponents
 
-  attr :current_project, :string, required: true
   attr :projects, :list, required: true
+  attr :current_project_id, :integer, default: nil
 
   def project_sidebar(assigns) do
     ~H"""
@@ -21,16 +21,16 @@ defmodule TodoistWeb.Components.ProjectSidebar do
         <p class="text-gray-500">No projects yet</p>
       <% end %>
 
-      <nav className="space-y-2">
+      <nav class="space-y-1">
         <%= for project <- @projects do %>
           <.link
             navigate={"/#{project.title}/todos"}
             class={[
               "flex items-center p-2 rounded-lg",
-              if project.title == @current_project do
+              if project.id == @current_project_id do
                 "bg-orange-100 text-orange-900 hover:bg-orange-200 transition-all"
               else
-                "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               end
             ]}
           >

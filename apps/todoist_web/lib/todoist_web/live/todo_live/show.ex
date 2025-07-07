@@ -31,7 +31,7 @@ defmodule TodoistWeb.TodoLive.Show do
     ~H"""
     <div class="flex h-full max-w-full">
       <TodoistWeb.Components.ProjectSidebar.project_sidebar
-        current_project={@current_project.title}
+        current_project_id={@current_project.id}
         projects={@projects}
       />
 

@@ -63,11 +63,11 @@ defmodule TodoistWeb.TodoLive.Index do
     ~H"""
     <div class="flex h-full max-w-full">
       <TodoistWeb.Components.ProjectSidebar.project_sidebar
-        current_project={@current_project.title}
+        current_project_id={@current_project.id}
         projects={@projects}
       />
 
-      <div class="flex-1 min-w-0 p-8 overflow-y-auto">
+      <div class="flex-1 p-4 overflow-y-auto">
         <.header>
           {@page_title}
           <:actions>
