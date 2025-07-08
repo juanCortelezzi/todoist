@@ -15,6 +15,7 @@ defmodule TodoistWeb.TodoLive.Index do
      socket
      |> assign(:current_project, project)
      |> assign(:projects, projects)
+     |> assign(:form, Projects.change_project(project) |> to_form())
      |> stream(:todos, todos)}
   end
 
@@ -43,6 +44,21 @@ defmodule TodoistWeb.TodoLive.Index do
   end
 
   @impl true
+  def handle_event("update_project", %{"project" => params}, socket) do
+    case Projects.update_project(socket.assigns.current_project, params) do
+      {:ok, project} ->
+        {:noreply, 
+         socket
+         |> assign(:current_project, project)
+         |> assign(:form, Projects.change_project(project) |> to_form())
+         |> push_navigate(to: ~p"/#{project.title}/todos")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :form, to_form(changeset))}
+    end
+  end
+
+  @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     todo = Todos.get_todo!(id)
     {:ok, _} = Todos.delete_todo(todo)
@@ -61,7 +77,9 @@ defmodule TodoistWeb.TodoLive.Index do
 
       <div class="flex-1 p-4 overflow-y-auto">
         <.header>
-          {@current_project.title}
+          <.simple_form for={@form} phx-change="update_project" phx-submit="update_project">
+            <.input field={@form[:title]} type="text" phx-debounce="blur" />
+          </.simple_form>
           <:actions>
             <.link patch={~p"/#{@current_project.title}/todos/new"}>
               <.button>New Todo</.button>
