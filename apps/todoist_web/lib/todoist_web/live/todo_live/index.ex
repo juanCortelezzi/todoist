@@ -23,18 +23,10 @@ defmodule TodoistWeb.TodoLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :edit, %{"id" => id}) do
-    socket
-    |> assign(:page_title, "Edit Todo")
-    |> assign(:todo, Todos.get_todo!(id))
-  end
-
   defp apply_action(socket, :new, _params) do
-    project = socket.assigns.current_project
-
     socket
     |> assign(:page_title, "New Todo")
-    |> assign(:todo, %Todo{project_id: project.id})
+    |> assign(:todo, %Todo{project_id: socket.assigns.current_project.id})
   end
 
   defp apply_action(socket, :index, _params) do
@@ -69,7 +61,7 @@ defmodule TodoistWeb.TodoLive.Index do
 
       <div class="flex-1 p-4 overflow-y-auto">
         <.header>
-          {@page_title}
+          {@current_project.title}
           <:actions>
             <.link patch={~p"/#{@current_project.title}/todos/new"}>
               <.button>New Todo</.button>
@@ -89,7 +81,6 @@ defmodule TodoistWeb.TodoLive.Index do
             <div class="sr-only">
               <.link navigate={~p"/#{@current_project.title}/todos/#{todo}"}>Show</.link>
             </div>
-            <.link patch={~p"/#{@current_project.title}/todos/#{todo}/edit"}>Edit</.link>
           </:action>
           <:action :let={{id, todo}}>
             <.link
@@ -104,7 +95,7 @@ defmodule TodoistWeb.TodoLive.Index do
     </div>
 
     <.modal
-      :if={@live_action in [:new, :edit]}
+      :if={@live_action in [:new]}
       id="todo-modal"
       show
       on_cancel={JS.patch(~p"/#{@current_project.title}/todos")}

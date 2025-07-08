@@ -23,10 +23,8 @@ defmodule TodoistWeb.Router do
 
     live "/:project_name/todos", TodoLive.Index, :index
     live "/:project_name/todos/new", TodoLive.Index, :new
-    live "/:project_name/todos/:id/edit", TodoLive.Index, :edit
 
-    live "/:project_name/todos/:id", TodoLive.Show, :show
-    live "/:project_name/todos/:id/show/edit", TodoLive.Show, :edit
+    live "/:project_name/todos/:todo_id", TodoLive.Show, :show
   end
 
   # Other scopes may use custom stacks.

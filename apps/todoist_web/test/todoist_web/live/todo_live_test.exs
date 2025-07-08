@@ -6,11 +6,6 @@ defmodule TodoistWeb.TodoLiveTest do
   import Todoist.ProjectsFixtures
 
   @create_attrs %{status: :todo, description: "Buy groceries", title: "Weekly shopping"}
-  @update_attrs %{
-    status: :done,
-    description: "Bought all groceries including milk",
-    title: "Weekly shopping completed"
-  }
   @invalid_attrs %{status: :todo, title: "", project_id: 1}
 
   defp create_todo(_) do
@@ -54,29 +49,6 @@ defmodule TodoistWeb.TodoLiveTest do
       assert html =~ "Weekly shopping"
     end
 
-    test "updates todo in listing", %{conn: conn, todo: todo, project: project} do
-      {:ok, index_live, _html} = live(conn, ~p"/#{project.title}/todos")
-
-      assert index_live |> element("#todos-#{todo.id} a", "Edit") |> render_click() =~
-               "Edit Todo"
-
-      assert_patch(index_live, ~p"/#{project.title}/todos/#{todo}/edit")
-
-      assert index_live
-             |> form("#todo-form", todo: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert index_live
-             |> form("#todo-form", todo: @update_attrs)
-             |> render_submit()
-
-      assert_patch(index_live, ~p"/#{project.title}/todos")
-
-      html = render(index_live)
-      assert html =~ "Todo updated successfully"
-      assert html =~ "done"
-    end
-
     test "deletes todo in listing", %{conn: conn, todo: todo, project: project} do
       {:ok, index_live, _html} = live(conn, ~p"/#{project.title}/todos")
 
@@ -93,29 +65,6 @@ defmodule TodoistWeb.TodoLiveTest do
 
       assert html =~ "Show Todo"
       assert html =~ todo.status |> Atom.to_string()
-    end
-
-    test "updates todo within modal", %{conn: conn, todo: todo, project: project} do
-      {:ok, show_live, _html} = live(conn, ~p"/#{project.title}/todos/#{todo}")
-
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Todo"
-
-      assert_patch(show_live, ~p"/#{project.title}/todos/#{todo}/show/edit")
-
-      assert show_live
-             |> form("#todo-form", todo: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert show_live
-             |> form("#todo-form", todo: @update_attrs)
-             |> render_submit()
-
-      assert_patch(show_live, ~p"/#{project.title}/todos/#{todo}")
-
-      html = render(show_live)
-      assert html =~ "Todo updated successfully"
-      assert html =~ "done"
     end
   end
 end

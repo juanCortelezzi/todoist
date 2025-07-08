@@ -5,26 +5,30 @@ defmodule TodoistWeb.TodoLive.Show do
   alias Todoist.Todos
 
   @impl true
-  def mount(%{"project_name" => project_name}, _session, socket) do
+  def mount(%{"project_name" => project_name, "todo_id" => todo_id}, _session, socket) do
     project = Projects.get_project_by_title!(project_name)
     projects = Projects.list_projects()
+    todo = Todos.get_todo!(todo_id)
 
     {:ok,
      socket
+     |> assign(:page_title, "Show Todo")
+     |> assign(:projects, projects)
      |> assign(:current_project, project)
-     |> assign(:projects, projects)}
+     |> assign(:current_todo, todo)
+     |> assign(:form, Todos.change_todo(todo) |> to_form())}
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
-    {:noreply,
-     socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:todo, Todos.get_todo!(id))}
-  end
+  def handle_event("update_todo", %{"todo" => params}, socket) do
+    case Todos.update_todo(socket.assigns.current_todo, params) do
+      {:ok, _todo} ->
+        {:noreply, socket}
 
-  defp page_title(:show), do: "Show Todo"
-  defp page_title(:edit), do: "Edit Todo"
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :form, to_form(changeset))}
+    end
+  end
 
   @impl true
   def render(assigns) do
@@ -35,45 +39,31 @@ defmodule TodoistWeb.TodoLive.Show do
         projects={@projects}
       />
 
-      <div class="flex-1 min-w-0 p-8 overflow-y-auto">
+      <div class="flex-1 p-4 overflow-y-auto">
         <.header>
-          Todo {@todo.id}
+          Todo {@current_todo.id}
           <:subtitle>This is a todo record from your database.</:subtitle>
-          <:actions>
-            <.link
-              patch={~p"/#{@current_project.title}/todos/#{@todo}/show/edit"}
-              phx-click={JS.push_focus()}
-            >
-              <.button>Edit todo</.button>
-            </.link>
-          </:actions>
         </.header>
 
-        <.list>
-          <:item title="Title">{@todo.title}</:item>
-          <:item title="Description">{@todo.description || "No description"}</:item>
-          <:item title="Status">{@todo.status}</:item>
-        </.list>
+        <.simple_form for={@form} phx-change="update_todo" phx-submit="update_todo">
+          <.input field={@form[:title]} type="text" label="Title" phx-debounce="blur" />
+          <.input
+            field={@form[:description]}
+            type="text"
+            label="Description (optional)"
+            phx-debounce="blur"
+          />
+          <.input
+            field={@form[:status]}
+            type="select"
+            label="Status"
+            options={[{"Todo", :todo}, {"Doing", :doing}, {"Done", :done}]}
+          />
+        </.simple_form>
 
         <.back navigate={~p"/#{@current_project.title}/todos"}>Back to todos</.back>
       </div>
     </div>
-
-    <.modal
-      :if={@live_action == :edit}
-      id="todo-modal"
-      show
-      on_cancel={JS.patch(~p"/#{@current_project.title}/todos/#{@todo}")}
-    >
-      <.live_component
-        module={TodoistWeb.TodoLive.FormComponent}
-        id={@todo.id}
-        title={@page_title}
-        action={@live_action}
-        todo={@todo}
-        patch={~p"/#{@current_project.title}/todos/#{@todo}"}
-      />
-    </.modal>
     """
   end
 end

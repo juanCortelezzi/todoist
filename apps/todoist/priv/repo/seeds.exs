@@ -42,7 +42,7 @@ Repo.insert!(%Todo{
   project_id: work_project.id
 })
 
-# Create sample todos for Personal project  
+# Create sample todos for Personal project
 Repo.insert!(%Todo{
   title: "Learn Elixir",
   description: "Complete the Elixir programming course",
