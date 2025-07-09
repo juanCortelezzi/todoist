@@ -7,7 +7,7 @@ defmodule TodoistWeb.TodoLive.Index do
 
   @impl true
   def mount(%{"project_name" => project_name}, _session, socket) do
-    project = Projects.get_project_by_title!(project_name)
+    project = Projects.get_project_by_name!(project_name)
     projects = Projects.list_projects()
     todos = Todos.list_todos_by_project(project)
 
@@ -34,7 +34,7 @@ defmodule TodoistWeb.TodoLive.Index do
     project = socket.assigns.current_project
 
     socket
-    |> assign(:page_title, "#{project.title} - Todos")
+    |> assign(:page_title, "#{project.name} - Todos")
     |> assign(:todo, nil)
   end
 
@@ -51,7 +51,7 @@ defmodule TodoistWeb.TodoLive.Index do
          socket
          |> assign(:current_project, project)
          |> assign(:form, Projects.change_project(project) |> to_form())
-         |> push_navigate(to: ~p"/#{project.title}/todos")}
+         |> push_navigate(to: ~p"/#{project.name}/todos")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :form, to_form(changeset))}
@@ -78,10 +78,10 @@ defmodule TodoistWeb.TodoLive.Index do
       <div class="flex-1 p-4 overflow-y-auto">
         <.header>
           <.simple_form for={@form} phx-change="update_project" phx-submit="update_project">
-            <.input field={@form[:title]} type="text" phx-debounce="blur" />
+            <.input field={@form[:name]} type="text" phx-debounce="blur" />
           </.simple_form>
           <:actions>
-            <.link patch={~p"/#{@current_project.title}/todos/new"}>
+            <.link patch={~p"/#{@current_project.name}/todos/new"}>
               <.button>New Todo</.button>
             </.link>
           </:actions>
@@ -90,14 +90,14 @@ defmodule TodoistWeb.TodoLive.Index do
         <.table
           id="todos"
           rows={@streams.todos}
-          row_click={fn {_id, todo} -> JS.navigate(~p"/#{@current_project.title}/todos/#{todo}") end}
+          row_click={fn {_id, todo} -> JS.navigate(~p"/#{@current_project.name}/todos/#{todo}") end}
         >
           <:col :let={{_id, todo}} label="Title">{todo.title}</:col>
           <:col :let={{_id, todo}} label="Description">{todo.description || "—"}</:col>
           <:col :let={{_id, todo}} label="Status">{todo.status}</:col>
           <:action :let={{_id, todo}}>
             <div class="sr-only">
-              <.link navigate={~p"/#{@current_project.title}/todos/#{todo}"}>Show</.link>
+              <.link navigate={~p"/#{@current_project.name}/todos/#{todo}"}>Show</.link>
             </div>
           </:action>
           <:action :let={{id, todo}}>
@@ -116,7 +116,7 @@ defmodule TodoistWeb.TodoLive.Index do
       :if={@live_action in [:new]}
       id="todo-modal"
       show
-      on_cancel={JS.patch(~p"/#{@current_project.title}/todos")}
+      on_cancel={JS.patch(~p"/#{@current_project.name}/todos")}
     >
       <.live_component
         module={TodoistWeb.TodoLive.FormComponent}
@@ -124,7 +124,7 @@ defmodule TodoistWeb.TodoLive.Index do
         title={@page_title}
         action={@live_action}
         todo={@todo}
-        patch={~p"/#{@current_project.title}/todos"}
+        patch={~p"/#{@current_project.name}/todos"}
       />
     </.modal>
     """

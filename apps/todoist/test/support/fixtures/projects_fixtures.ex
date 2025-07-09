@@ -12,7 +12,7 @@ defmodule Todoist.ProjectsFixtures do
       attrs
       |> Enum.into(%{
         description: "some description",
-        title: "some title"
+        name: "some name"
       })
       |> Todoist.Projects.create_project()
 

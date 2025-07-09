@@ -8,7 +8,7 @@ defmodule Todoist.ProjectsTest do
 
     import Todoist.ProjectsFixtures
 
-    @invalid_attrs %{description: nil, title: nil}
+    @invalid_attrs %{description: nil, name: nil}
 
     test "list_projects/0 returns all projects" do
       project = project_fixture()
@@ -21,11 +21,11 @@ defmodule Todoist.ProjectsTest do
     end
 
     test "create_project/1 with valid data creates a project" do
-      valid_attrs = %{description: "some description", title: "some title"}
+      valid_attrs = %{description: "some description", name: "some name"}
 
       assert {:ok, %Project{} = project} = Projects.create_project(valid_attrs)
       assert project.description == "some description"
-      assert project.title == "some title"
+      assert project.name == "some name"
     end
 
     test "create_project/1 with invalid data returns error changeset" do
@@ -34,11 +34,11 @@ defmodule Todoist.ProjectsTest do
 
     test "update_project/2 with valid data updates the project" do
       project = project_fixture()
-      update_attrs = %{description: "some updated description", title: "some updated title"}
+      update_attrs = %{description: "some updated description", name: "some updated name"}
 
       assert {:ok, %Project{} = project} = Projects.update_project(project, update_attrs)
       assert project.description == "some updated description"
-      assert project.title == "some updated title"
+      assert project.name == "some updated name"
     end
 
     test "update_project/2 with invalid data returns error changeset" do

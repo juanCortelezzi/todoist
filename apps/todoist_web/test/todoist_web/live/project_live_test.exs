@@ -3,8 +3,8 @@ defmodule TodoistWeb.ProjectLiveTest do
 
   import Phoenix.LiveViewTest
 
-  @create_attrs %{title: "Test Project", description: "A test project"}
-  @invalid_attrs %{title: "", description: "some description"}
+  @create_attrs %{name: "Test Project", description: "A test project"}
+  @invalid_attrs %{name: "", description: "some description"}
 
   describe "New" do
     test "saves new project", %{conn: conn} do
@@ -18,14 +18,14 @@ defmodule TodoistWeb.ProjectLiveTest do
              |> form("#project-form", project: @create_attrs)
              |> render_submit()
 
-      assert_redirected(new_live, ~p"/#{@create_attrs.title}/todos")
+      assert_redirected(new_live, ~p"/#{@create_attrs.name}/todos")
     end
 
     test "displays new project form", %{conn: conn} do
       {:ok, _new_live, html} = live(conn, ~p"/projects/new")
 
       assert html =~ "New Project"
-      assert html =~ "Title"
+      assert html =~ "Name"
       assert html =~ "Description"
     end
   end

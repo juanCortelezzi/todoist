@@ -24,7 +24,7 @@ defmodule TodoistWeb.Components.ProjectSidebar do
       <nav class="space-y-1">
         <%= for project <- @projects do %>
           <.link
-            navigate={"/#{project.title}/todos"}
+            navigate={"/#{project.name}/todos"}
             class={[
               "flex items-center p-2 rounded-lg",
               if project.id == @current_project_id do
@@ -34,7 +34,7 @@ defmodule TodoistWeb.Components.ProjectSidebar do
               end
             ]}
           >
-            <span class="truncate">{project.title}</span>
+            <span class="truncate">{project.name}</span>
           </.link>
         <% end %>
       </nav>

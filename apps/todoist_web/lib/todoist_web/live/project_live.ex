@@ -35,7 +35,7 @@ defmodule TodoistWeb.ProjectLive do
         {:noreply,
          socket
          |> put_flash(:info, "Project created successfully")
-         |> push_navigate(to: ~p"/#{project.title}/todos")}
+         |> push_navigate(to: ~p"/#{project.name}/todos")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :form, to_form(changeset))}
@@ -61,7 +61,7 @@ defmodule TodoistWeb.ProjectLive do
 
         <div class="max-w-md">
           <.simple_form for={@form} id="project-form" phx-change="validate" phx-submit="save">
-            <.input field={@form[:title]} type="text" label="Project Title" required />
+            <.input field={@form[:name]} type="text" label="Project Name" required />
             <.input field={@form[:description]} type="text" label="Description" required />
 
             <:actions>

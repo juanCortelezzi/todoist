@@ -11,7 +11,7 @@ defmodule TodoistWeb.PageController do
 
       [first_project | _] ->
         # Redirect to the first project's todos
-        redirect(conn, to: ~p"/#{first_project.title}/todos")
+        redirect(conn, to: ~p"/#{first_project.name}/todos")
     end
   end
 end

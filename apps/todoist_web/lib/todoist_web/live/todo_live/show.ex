@@ -6,7 +6,7 @@ defmodule TodoistWeb.TodoLive.Show do
 
   @impl true
   def mount(%{"project_name" => project_name, "todo_id" => todo_id}, _session, socket) do
-    project = Projects.get_project_by_title!(project_name)
+    project = Projects.get_project_by_name!(project_name)
     projects = Projects.list_projects()
     todo = Todos.get_todo!(todo_id)
 
@@ -61,7 +61,7 @@ defmodule TodoistWeb.TodoLive.Show do
           />
         </.simple_form>
 
-        <.back navigate={~p"/#{@current_project.title}/todos"}>Back to todos</.back>
+        <.back navigate={~p"/#{@current_project.name}/todos"}>Back to todos</.back>
       </div>
     </div>
     """

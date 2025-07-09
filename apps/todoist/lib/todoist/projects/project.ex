@@ -2,7 +2,7 @@ defmodule Todoist.Projects.Project do
   @moduledoc """
   Defines the Project schema and changeset.
 
-  A Project represents a container for todos with a title and description.
+  A Project represents a container for todos with a name and description.
   Projects have many todos through a one-to-many relationship.
   """
   use Ecto.Schema
@@ -10,7 +10,7 @@ defmodule Todoist.Projects.Project do
 
   schema "projects" do
     field :description, :string
-    field :title, :string
+    field :name, :string
 
     has_many(:todos, Todoist.Todos.Todo)
 
@@ -20,7 +20,7 @@ defmodule Todoist.Projects.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:title, :description])
-    |> validate_required([:title, :description])
+    |> cast(attrs, [:name, :description])
+    |> validate_required([:name, :description])
   end
 end
