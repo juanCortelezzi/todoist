@@ -5,8 +5,43 @@
 /* This file is for your main application CSS */
 
 /* Tailwind v4 Theme Configuration */
+@font-face {
+  font-family: TiemposHeadline;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/TiemposHeadline/TiemposHeadline-Semibold.woff")
+    format("woff");
+}
+
+@font-face {
+  font-family: TiemposHeadline;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/TiemposHeadline/TiemposHeadline-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: ModernEra;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/ModernEra/ModernEra-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: ModernEra;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ModernEra/ModernEra-Regular.woff2") format("woff2");
+}
+
 @theme {
   --color-brand: #fd4f00;
+  --font-sans: "ModernEra", "sans-serif";
+  --font-serif: "TiemposHeadline", "serif";
 }
 
 /*
