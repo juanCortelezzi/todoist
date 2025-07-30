@@ -39,9 +39,76 @@
 }
 
 @theme {
-  --color-brand: #fd4f00;
   --font-sans: "ModernEra", "sans-serif";
   --font-serif: "TiemposHeadline", "serif";
+
+  --color-shiro: #fffefd;
+  --color-kuro: #1a1a1a;
+
+  --color-midnight: #3e1768;
+  --color-midnight-75: #6e518e;
+  --color-midnight-50: #9e8bb3;
+  --color-midnight-25: #cfc5d9;
+  --color-aubergine: #67295f;
+  --color-aubergine-75: #8d5f87;
+  --color-aubergine-50: #b394af;
+  --color-aubergine-25: #d9c9d7;
+  --color-lilac: #75457d;
+  --color-lilac-75: #98749e;
+  --color-lilac-50: #baa2be;
+  --color-lilac-25: #dcd0de;
+  --color-mauve: #9f81a5;
+  --color-mauve-75: #b7a1bc;
+  --color-mauve-50: #cfc0d2;
+  --color-mauve-25: #e7dfe8;
+  --color-mist: #c7c7e5;
+  --color-mist-75: #e0e0ee;
+  --color-mist-50: #eaeaf3;
+  --color-mist-25: #f4f4f9;
+  --color-sand: #ccac9f;
+  --color-sand-75: #d9c1b7;
+  --color-sand-50: #e5d5cf;
+  --color-sand-25: #f2eae7;
+  --color-pebble: #eee1db;
+  --color-pebble-75: #f2e9e4;
+  --color-pebble-50: #f6f0ed;
+  --color-pebble-25: #fbf7f6;
+  --color-ishi: #484848;
+  --color-ishi-75: #767676;
+  --color-ishi-50: #a3a3a3;
+  --color-ishi-25: #d1d1d1;
+  --color-forest: #025656;
+  --color-forest-75: #418080;
+  --color-forest-50: #80aaaa;
+  --color-forest-25: #c0d5d5;
+  --color-kelp: #097270;
+  --color-kelp-75: #479594;
+  --color-kelp-50: #84b8b7;
+  --color-kelp-25: #c1dcdb;
+  --color-coral: #d45847;
+  --color-coral-75: #df8275;
+  --color-coral-50: #e9aba3;
+  --color-coral-25: #f4d5d1;
+}
+
+@layer components {
+  .header-main {
+    font-family: var(--font-serif);
+    font-weight: var(--font-weight-semibold);
+    line-height: 110%;
+  }
+
+  .header-functional {
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-semibold);
+    line-height: 140%;
+  }
+
+  .body-copy {
+    font-family: var(--font-sans);
+    line-height: 140%;
+    letter-spacing: --tracking-wide;
+  }
 }
 
 /*
