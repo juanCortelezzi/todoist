@@ -15,7 +15,6 @@ defmodule TodoistWeb.TodoLive.Index do
      socket
      |> assign(:current_project, project)
      |> assign(:projects, projects)
-     |> assign(:form, Projects.change_project(project) |> to_form())
      |> stream(:todos, todos)}
   end
 
@@ -47,7 +46,7 @@ defmodule TodoistWeb.TodoLive.Index do
   def handle_event("update_project", %{"project" => params}, socket) do
     case Projects.update_project(socket.assigns.current_project, params) do
       {:ok, project} ->
-        {:noreply, 
+        {:noreply,
          socket
          |> assign(:current_project, project)
          |> assign(:form, Projects.change_project(project) |> to_form())
@@ -69,46 +68,45 @@ defmodule TodoistWeb.TodoLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="flex h-full max-w-full">
+    <div class="flex gap-32">
       <TodoistWeb.Components.ProjectSidebar.project_sidebar
         current_project_id={@current_project.id}
         projects={@projects}
       />
 
-      <div class="flex-1 p-4 overflow-y-auto">
-        <.header>
-          <.simple_form for={@form} phx-change="update_project" phx-submit="update_project">
-            <.input field={@form[:name]} type="text" phx-debounce="blur" />
-          </.simple_form>
-          <:actions>
-            <.link patch={~p"/#{@current_project.name}/todos/new"}>
-              <.button>New Todo</.button>
+      <div class="flex-1 overflow-y-auto">
+        <header class="flex items-center justify-between gap-8">
+          <h1 class="header-main">{@current_project.name}</h1>
+          <.link patch={~p"/#{@current_project.name}/todos/new"}>
+            <.button>New Todo</.button>
+          </.link>
+        </header>
+        <div id="todos" phx-update="stream" class="space-y-2 pt-8">
+          <div
+            :for={{id, todo} <- @streams.todos}
+            id={id}
+            class="flex items-center justify-between gap-4 p-2 rounded-lg border border-kuro"
+          >
+            <.link
+              patch={~p"/#{@current_project.name}/todos/#{todo.id}"}
+              class="flex flex-1 gap-4 items-center"
+            >
+              <div class={[
+                "size-5 rounded-full",
+                todo.status === :todo && "bg-ishi",
+                todo.status === :doing && "bg-coral",
+                todo.status === :done && "bg-kelp"
+              ]} />
+              <span>{todo.title}</span>
             </.link>
-          </:actions>
-        </.header>
-
-        <.table
-          id="todos"
-          rows={@streams.todos}
-          row_click={fn {_id, todo} -> JS.navigate(~p"/#{@current_project.name}/todos/#{todo}") end}
-        >
-          <:col :let={{_id, todo}} label="Title">{todo.title}</:col>
-          <:col :let={{_id, todo}} label="Description">{todo.description || "—"}</:col>
-          <:col :let={{_id, todo}} label="Status">{todo.status}</:col>
-          <:action :let={{_id, todo}}>
-            <div class="sr-only">
-              <.link navigate={~p"/#{@current_project.name}/todos/#{todo}"}>Show</.link>
-            </div>
-          </:action>
-          <:action :let={{id, todo}}>
             <.link
               phx-click={JS.push("delete", value: %{id: todo.id}) |> hide("##{id}")}
               data-confirm="Are you sure?"
             >
-              Delete
+              <.icon name="hero-trash" />
             </.link>
-          </:action>
-        </.table>
+          </div>
+        </div>
       </div>
     </div>
 

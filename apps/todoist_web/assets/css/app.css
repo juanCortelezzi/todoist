@@ -95,12 +95,14 @@
   .header-main {
     font-family: var(--font-serif);
     font-weight: var(--font-weight-semibold);
+    font-size: var(--text-4xl);
     line-height: 110%;
   }
 
   .header-functional {
     font-family: var(--font-sans);
     font-weight: var(--font-weight-semibold);
+    font-size: var(--text-3xl);
     line-height: 140%;
   }
 
