@@ -69,7 +69,7 @@ defmodule TodoistWeb.TodoLive.Index do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="flex gap-32">
+    <div class="flex gap-16 lg:gap-32">
       <TodoistWeb.Components.ProjectSidebar.project_sidebar
         current_project_id={@current_project.id}
         projects={@projects}
