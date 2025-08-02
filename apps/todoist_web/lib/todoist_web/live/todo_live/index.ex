@@ -15,6 +15,7 @@ defmodule TodoistWeb.TodoLive.Index do
      socket
      |> assign(:current_project, project)
      |> assign(:projects, projects)
+     |> assign(:form, Projects.change_project(project) |> to_form())
      |> stream(:todos, todos)}
   end
 
@@ -76,7 +77,13 @@ defmodule TodoistWeb.TodoLive.Index do
 
       <div class="flex-1 overflow-y-auto">
         <header class="flex items-center justify-between gap-8">
-          <h1 class="header-main">{@current_project.name}</h1>
+          <.form for={@form} phx-change="update_project" phx-submit="update_project">
+            <TodoistWeb.Components.ImmediateInput.immediate_input
+              class="header-main"
+              phx-debounce="blur"
+              field={@form[:name]}
+            />
+          </.form>
           <.link patch={~p"/#{@current_project.name}/todos/new"}>
             <.button>New Todo</.button>
           </.link>
