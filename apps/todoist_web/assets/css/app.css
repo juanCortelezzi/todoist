@@ -91,6 +91,41 @@
   --color-coral-25: #f4d5d1;
 }
 
+@plugin "daisyui/theme" {
+  name: "hinge";
+  default: true;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: var(--color-shiro);
+  --color-base-200: var(--color-shiro);
+  --color-base-300: var(--color-shiro);
+  --color-base-content: var(--color-kuro);
+  --color-primary: var(--color-kuro);
+  --color-primary-content: var(--color-shiro);
+  --color-secondary: var(--color-aubergine);
+  --color-secondary-content: var(--color-shiro);
+  --color-accent: var(--color-kuro);
+  --color-accent-content: var(--color-shiro);
+  --color-neutral: var(--color-kuro);
+  --color-neutral-content: var(--color-shiro);
+  --color-info: var(--color-kuro);
+  --color-info-content: var(--color-shiro);
+  --color-success: var(--color-forest);
+  --color-success-content: var(--color-shiro);
+  --color-warning: var(--color-kuro);
+  --color-warning-content: var(--color-shiro);
+  --color-error: var(--color-coral);
+  --color-error-content: var(--color-shiro);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
 @layer components {
   .header-main {
     font-family: var(--font-serif);
